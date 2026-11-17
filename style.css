@@ -358,7 +358,7 @@ h1, h2, h3 { text-wrap: balance; }
 .shelf span { font-size: 13px; color: rgb(255 255 255 / 75%); }
 
 /* ---------- Story: one gesture, two screens ---------- */
-.story { position: relative; height: 640vh; margin-top: 40px; }
+.story { position: relative; height: 740vh; margin-top: 40px; }
 .stage {
   position: sticky; top: 0; height: 100vh; min-height: 560px;
   display: grid; grid-template-columns: minmax(260px, 0.8fr) 1.4fr; gap: 48px; align-items: center;
@@ -388,13 +388,16 @@ h1, h2, h3 { text-wrap: balance; }
 .stage[data-step="2"] .L-search, .stage[data-step="2"] .P-keys,
 .stage[data-step="3"] .L-mirror, .stage[data-step="3"] .P-mirror,
 .stage[data-step="4"] .L-hdmi, .stage[data-step="4"] .P-home,
-.stage[data-step="5"] .L-aerial, .stage[data-step="5"] .P-sleep { opacity: 1; }
+.stage[data-step="5"] .L-listen, .stage[data-step="5"] .P-buds,
+.stage[data-step="6"] .L-aerial, .stage[data-step="6"] .P-sleep { opacity: 1; }
 .stage[data-step="0"] .S0, .stage[data-step="1"] .S1, .stage[data-step="2"] .S2,
-.stage[data-step="3"] .S3, .stage[data-step="4"] .S4, .stage[data-step="5"] .S5 { opacity: 1; transform: none; }
+.stage[data-step="3"] .S3, .stage[data-step="4"] .S4, .stage[data-step="5"] .S5,
+.stage[data-step="6"] .S6 { opacity: 1; transform: none; }
 .stage[data-step="0"] .dots i:nth-child(1), .stage[data-step="1"] .dots i:nth-child(2),
 .stage[data-step="2"] .dots i:nth-child(3), .stage[data-step="3"] .dots i:nth-child(4),
-.stage[data-step="4"] .dots i:nth-child(5), .stage[data-step="5"] .dots i:nth-child(6) { width: 28px; background: var(--ink); }
-.stage[data-step="5"] .devices .tv { box-shadow: 0 0 0 1px rgb(255 255 255 / 10%), 0 60px 140px -30px rgb(255 170 110 / 45%), 0 40px 80px -20px rgb(0 0 0 / 90%); }
+.stage[data-step="4"] .dots i:nth-child(5), .stage[data-step="5"] .dots i:nth-child(6),
+.stage[data-step="6"] .dots i:nth-child(7) { width: 28px; background: var(--ink); }
+.stage[data-step="6"] .devices .tv { box-shadow: 0 0 0 1px rgb(255 255 255 / 10%), 0 60px 140px -30px rgb(255 170 110 / 45%), 0 40px 80px -20px rgb(0 0 0 / 90%); }
 
 /* 0 Swipe: the finger and the focus ring move together (4 s loop). */
 .L-home .ring {
@@ -480,7 +483,7 @@ html:not(.js) .dots { display: none; }
 html:not(.js) .stage .L-home, html:not(.js) .stage .P-touch { opacity: 1; }
 
 @media (max-width: 860px) {
-  .story { height: 700vh; }
+  .story { height: 820vh; }
   .stage { grid-template-columns: 1fr; grid-template-rows: auto auto; gap: 56px; align-content: center; padding-top: 48px; }
   .devices { order: -1; margin-right: 14%; }
   .devices .phone { right: -17%; bottom: -42%; width: 27%; }
@@ -498,3 +501,63 @@ html:not(.js) .stage .L-home, html:not(.js) .stage .P-touch { opacity: 1; }
 .cue:hover { color: var(--ink); text-decoration: none; }
 @keyframes nudge { 50% { transform: translateY(6px) rotate(45deg); } }
 .L-mirror .badge { left: 3cqw; right: auto; top: 3cqw; }
+
+/* 5 Listen: the phone gives way to the AirPods case. */
+.stage[data-step="5"] .phone { opacity: 0; transform: translateY(8%) scale(0.92); }
+.devices .phone { transition: opacity 0.6s, transform 0.6s; }
+.buds {
+  position: absolute; right: 0; bottom: -6%; width: clamp(110px, 19%, 190px); aspect-ratio: 1.25;
+  opacity: 0; transform: translateY(14%) scale(0.9); transition: opacity 0.6s, transform 0.6s;
+}
+.stage[data-step="5"] .buds { opacity: 1; transform: none; }
+.buds .case {
+  position: absolute; inset: 0; border-radius: 26% / 32%;
+  background: linear-gradient(160deg, #ffffff, #e4e4ea 55%, #c9c9d1);
+  box-shadow: inset 0 -6px 14px rgb(0 0 0 / 12%), 0 30px 60px -18px rgb(0 0 0 / 90%);
+}
+.buds .case::before { content: ""; position: absolute; left: 0; right: 0; top: 34%; height: 1px; background: rgb(0 0 0 / 18%); }
+.buds .case::after { content: ""; position: absolute; left: 50%; top: 52%; width: 6px; height: 6px; margin-left: -3px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); animation: blink 1.6s steps(1) infinite; }
+.buds .wave { position: absolute; left: 50%; top: 40%; width: 100%; aspect-ratio: 1; border-radius: 50%; border: 2px solid rgb(255 255 255 / 40%); transform: translate(-50%, -50%) scale(0.6); opacity: 0; animation: ripple 2.4s ease-out infinite; }
+.buds .wave:nth-child(2) { animation-delay: 0.8s; }
+.buds .wave:nth-child(3) { animation-delay: 1.6s; }
+@keyframes ripple { 0% { opacity: 0.8; transform: translate(-50%, -50%) scale(0.7); } 100% { opacity: 0; transform: translate(-50%, -50%) scale(2.2); } }
+.L-listen .hp { position: absolute; left: 3cqw; top: 2.6cqw; display: flex; gap: 0.9cqw; }
+.L-listen .hp .pill.on { background: #fff; color: #000; font-weight: 600; animation: press 3s infinite; }
+.L-listen .toast {
+  position: absolute; right: 3cqw; top: 2.6cqw; display: flex; align-items: center; gap: 1.2cqw; padding: 1.2cqw 2cqw; border-radius: 2cqw;
+  background: rgb(255 255 255 / 14%); backdrop-filter: blur(8px); font-size: 1.6cqw; font-weight: 600;
+}
+.L-listen .toast i { width: 2.6cqw; height: 2cqw; border-radius: 0.6cqw; background: #f2f2f5; }
+.L-listen .toast small { display: block; font-weight: 500; opacity: 0.7; font-size: 1.2cqw; }
+.L-listen .eq { position: absolute; left: 3cqw; right: 3cqw; bottom: 6cqw; height: 16cqw; display: flex; align-items: flex-end; gap: 0.8cqw; }
+.L-listen .eq i { flex: 1; border-radius: 0.4cqw; background: linear-gradient(var(--blue), var(--violet)); height: var(--h); animation: eq 1.2s ease-in-out infinite alternate; animation-delay: var(--d); }
+@media (max-width: 860px) {
+  .buds { right: -12%; bottom: -34%; width: 24%; }
+}
+/* AirPods Max drawn in CSS: a mesh headband and two ear cups. */
+.buds { aspect-ratio: 0.95; }
+.max { position: absolute; inset: 0; filter: drop-shadow(0 30px 40px rgb(0 0 0 / 85%)); }
+.max .band {
+  position: absolute; left: 14%; right: 14%; top: 4%; height: 62%;
+  border: 0.55em solid transparent; border-bottom: 0; border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  border-color: #d9d9de; font-size: clamp(8px, 1vw, 14px);
+}
+.max .band::after {
+  content: ""; position: absolute; inset: 0.2em; border: 0.5em solid transparent; border-bottom: 0; border-radius: inherit;
+  border-color: rgb(40 40 46 / 85%);
+  -webkit-mask: repeating-linear-gradient(45deg, #000 0 2px, transparent 2px 4px); mask: repeating-linear-gradient(45deg, #000 0 2px, transparent 2px 4px);
+}
+.max .cup {
+  position: absolute; bottom: 4%; width: 36%; height: 50%; border-radius: 30% / 22%;
+  background: linear-gradient(160deg, #f4f4f7, #c8c8cf 60%, #a9a9b2);
+  box-shadow: inset 0 -6px 12px rgb(0 0 0 / 15%), inset 0 2px 0 rgb(255 255 255 / 80%);
+}
+.max .cup::before { content: ""; position: absolute; top: -8%; left: 50%; width: 10%; height: 14%; margin-left: -5%; border-radius: 2px; background: #b8b8c0; }
+.max .cup.l { left: 4%; }
+.max .cup.r { right: 4%; }
+.max .cup.l::after, .max .cup.r::after { content: ""; position: absolute; top: 18%; bottom: 18%; width: 22%; border-radius: 40%; background: #2b2b31; }
+.max .cup.l::after { right: -6%; }
+.max .cup.r::after { left: -6%; }
+.buds::after { content: none; }
+.devices .buds { width: clamp(130px, 24%, 230px); right: -2%; }
+@media (max-width: 860px) { .devices .buds { width: 30%; right: -14%; bottom: -30%; } }

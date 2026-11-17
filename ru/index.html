@@ -63,13 +63,32 @@
   ]
 }
 </script>
+<script>
+document.documentElement.classList.add('js');
+addEventListener('DOMContentLoaded', () => {
+  const story = document.getElementById('story');
+  const stage = story && story.querySelector('.stage');
+  if (!stage) return;
+  let last = -1;
+  const update = () => {
+    const r = story.getBoundingClientRect();
+    const span = story.offsetHeight - innerHeight;
+    const p = Math.min(Math.max(-r.top / span, 0), 0.999);
+    const step = Math.floor(p * 6);
+    if (step !== last) { stage.dataset.step = step; last = step; }
+  };
+  addEventListener('scroll', () => requestAnimationFrame(update), { passive: true });
+  addEventListener('resize', update);
+  update();
+});
+</script>
 </head>
 <body>
 <div class="wrap">
   <header class="top">
     <a class="brand" href="./"><img src="../assets/mascot.svg" alt="" width="28" height="28">Телик</a>
     <nav aria-label="Главное меню">
-      <a class="optional" href="#remote">Пульт</a>
+      <a class="optional" href="#story">Как это работает</a>
       <a class="optional" href="#home">Главный экран</a>
       <a class="optional" href="#install">Установка</a>
       <a href="../" hreflang="en" lang="en">English</a>
@@ -87,67 +106,50 @@
         <a class="button" href="https://github.com/telikapp/telik">Исходный код</a>
       </div>
       <p class="note">Бесплатно, открытый код, GPL-3.0. Android TV 13 и новее.</p>
-
-      <div class="scene" role="img" aria-label="Телевизор с главным экраном Телика и iPhone с пультом Apple TV перед ним">
-        <div class="tv">
-          <div class="screen">
-            <div class="ui-bar"><span class="pill">Настройки</span><span class="pill">HDMI 1</span><span class="pill">HDMI 2</span><span class="spacer"></span><span class="pill"><i class="wx cloud"></i> 18°</span><span class="clock">21:40</span></div>
-            <div class="ui-title"><b>Стеклянная гавань</b><span>Сезон 2 · Серия 4</span></div>
-            <div class="ui-apps"><div class="app a1"></div><div class="app a3 focus"></div><div class="app a2"></div><div class="app a4"></div><div class="app a5"></div></div>
-            <div class="ui-row-label">Продолжить просмотр</div>
-            <div class="ui-row"><div class="card16 c1" style="--p:70%"></div><div class="card16 c2" style="--p:30%"></div><div class="card16 c3" style="--p:55%"></div><div class="card16 c4" style="--p:15%"></div><div class="card16 c5" style="--p:85%"></div></div>
-          </div>
-        </div>
-        <div class="phone">
-          <div class="phone-screen">
-            <span class="island"></span>
-            <span class="device">Телик</span>
-            <div class="touchpad"></div>
-            <div class="keys"><span class="key">−10</span><span class="key">⏯︎</span><span class="key">+10</span></div>
-          </div>
-        </div>
-      </div>
+      <a class="cue" href="#story">Листайте, чтобы увидеть</a>
     </div>
 
-    <section id="remote" class="chapter">
-      <h2 class="reveal">Пульт уже в вашем iPhone.</h2>
-      <p class="sub reveal">Телик добавляет телевизор в список пульта Apple TV в Пункте управления. Один раз введите код. На телефон ничего ставить не нужно.</p>
-      <div class="bento">
-        <article class="glass tile s4 t-blue reveal">
-          <span class="k">Пульт</span>
-          <h3>Свайп, нажатие и перемотка.</h3>
-          <p>Сенсорная панель двигает фокус, нажатие выбирает, «Назад» и кнопка TV работают как на Apple TV. Когда играет видео, −10 и +10 перематывают его.</p>
-          <div class="skip" aria-hidden="true"><span>−10</span><span>⏯︎</span><span>+10</span></div>
-        </article>
-        <article class="glass tile s2 t-violet reveal">
-          <span class="k">Клавиатура</span>
-          <h3>Печатайте на телефоне.</h3>
-          <p>Клавиатура iPhone открывается, когда на телевизоре можно печатать. Кириллица тоже.</p>
-          <div class="typing" aria-hidden="true"><span>Стеклянная г</span></div>
-        </article>
-        <article class="glass tile s3 t-pink reveal">
-          <span class="k">AirPlay</span>
-          <h3>Повтор экрана и звук.</h3>
-          <p>Повторяйте экран iPhone, iPad или Mac и выводите звук на телевизор. Сопряжение AirPlay 2, основа — UxPlay.</p>
-          <div class="waves" aria-hidden="true"><i style="--h:60px;--d:0s"></i><i style="--h:85px;--d:.2s"></i><i style="--h:40px;--d:.4s"></i><i style="--h:75px;--d:.1s"></i><i style="--h:55px;--d:.3s"></i><i style="--h:90px;--d:.5s"></i><i style="--h:35px;--d:.15s"></i><i style="--h:70px;--d:.35s"></i><i style="--h:50px;--d:.25s"></i><i style="--h:80px;--d:.45s"></i></div>
-        </article>
-        <article class="glass tile s3 t-green reveal">
-          <span class="k">Приложение «Дом»</span>
-          <h3>Телевизор в «Доме».</h3>
-          <p>Питание, приложения и входы HDMI — для сценариев и Siri.</p>
-          <ul class="inputs" aria-hidden="true"><li>HDMI 1</li><li class="on">HDMI 2</li><li>HDMI 3</li></ul>
-        </article>
-        <article class="glass tile s2 t-amber reveal">
-          <span class="k">AirPods</span>
-          <h3>AirPods на телевизоре.</h3>
-          <p>Одна кнопка на главном экране подключает их. Стерео AAC.</p>
-        </article>
-        <article class="glass tile s4 reveal">
-          <span class="k">Ничего лишнего</span>
-          <h3>Без приставки, сервера и приложения на телефоне.</h3>
-          <p>Без Homebridge, Raspberry Pi и Termux. Телик живёт на телевизоре и запускается сам после включения.</p>
-          <p class="big grad">0 лишних устройств</p>
-        </article>
+    <section class="story" id="story" aria-label="Как Телик работает с iPhone, в шести шагах">
+      <div class="stage" data-step="0">
+        <div class="copy">
+          <div class="step S0"><span class="n">01 · Пульт</span><h2 class="grad">Свайп.</h2><p>Сенсорная панель пульта из Пункта управления двигает фокус на телевизоре. Нажатие открывает приложение.</p></div>
+          <div class="step S1"><span class="n">02 · Пульт</span><h2 class="grad">Перемотка.</h2><p>Когда играет видео, −10 и +10 перематывают его.</p></div>
+          <div class="step S2"><span class="n">03 · Клавиатура</span><h2 class="grad">Текст.</h2><p>Когда на телевизоре можно печатать, открывается клавиатура iPhone. Кириллица тоже.</p></div>
+          <div class="step S3"><span class="n">04 · AirPlay</span><h2 class="grad">Экран.</h2><p>Выведите экран iPhone, iPad или Mac на телевизор через AirPlay 2.</p></div>
+          <div class="step S4"><span class="n">05 · Приложение «Дом»</span><h2 class="grad">Вход.</h2><p>Телевизор — плитка в «Доме». Выберите HDMI 2, и на экране приставка.</p></div>
+          <div class="step S5"><span class="n">06 · Заставка</span><h2 class="grad">Покой.</h2><p>Когда никто не смотрит, телевизор показывает Землю в 4K, с часами и погодой.</p></div>
+          <div class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+        <div class="devices" aria-hidden="true">
+          <div class="tv">
+            <div class="screen">
+              <div class="layer L-home">
+                <div class="ui-bar"><span class="pill">Настройки</span><span class="pill">HDMI 1</span><span class="pill">HDMI 2</span><span class="spacer"></span><span class="pill"><i class="wx cloud"></i> 18°</span><span class="clock">21:40</span></div>
+                <div class="ui-title"><b>Стеклянная гавань</b><span>Сезон 2 · Серия 4</span></div>
+                <div class="ui-apps"><div class="app a1"></div><div class="app a3"></div><div class="app a2"></div><div class="app a4"></div><div class="app a5"></div></div>
+                <div class="ring"></div>
+                <div class="ui-row-label">Продолжить просмотр</div>
+                <div class="ui-row"><div class="card16 c1" style="--p:70%"></div><div class="card16 c2" style="--p:30%"></div><div class="card16 c3" style="--p:55%"></div><div class="card16 c4" style="--p:15%"></div><div class="card16 c5" style="--p:85%"></div></div>
+              </div>
+              <div class="layer L-video"><span class="ten">+10</span><div class="bar"><i></i></div></div>
+              <div class="layer L-search"><div class="field"><span>Стеклянная г</span></div><div class="results"><i class="c1"></i><i class="c3"></i><i class="c4"></i></div></div>
+              <div class="layer L-mirror photo"><span class="badge">AirPlay</span></div>
+              <div class="layer L-hdmi"><span class="banner">HDMI 2</span><div class="logo">PLAY</div></div>
+              <div class="layer L-aerial"><div class="over"><b>21:40</b><span><i class="wx cloud"></i> 18°</span></div></div>
+            </div>
+          </div>
+          <div class="phone">
+            <div class="phone-screen">
+              <span class="island"></span>
+              <div class="ph-layer P-touch"><span class="device">Телик</span><div class="touchpad"><span class="finger"></span></div><div class="keys"><span class="key">−10</span><span class="key">⏯︎</span><span class="key">+10</span></div></div>
+              <div class="ph-layer P-skip"><span class="device">Телик</span><div class="touchpad"></div><div class="keys"><span class="key">−10</span><span class="key">⏯︎</span><span class="key">+10</span></div></div>
+              <div class="ph-layer P-keys"><span class="device">Телик</span><div class="ph-text">Стеклянная г</div><div class="kbd"><b style="--i:0"></b><b style="--i:1"></b><b style="--i:2"></b><b style="--i:3"></b><b style="--i:0"></b><b style="--i:1"></b><b style="--i:2"></b><b style="--i:3"></b><b style="--i:0"></b><b style="--i:1"></b><b style="--i:2"></b><b style="--i:3"></b><b style="--i:0"></b><b style="--i:1"></b><b style="--i:2"></b><b style="--i:3"></b><b style="--i:0"></b><b style="--i:1"></b><b style="--i:2"></b><b style="--i:3"></b><b style="--i:0"></b><b style="--i:1"></b><b style="--i:2"></b><b style="--i:3"></b><b style="--i:0"></b><b style="--i:1"></b><b style="--i:2"></b><b style="--i:3"></b><b style="--i:0"></b><b style="--i:1"></b></div></div>
+              <div class="ph-layer P-mirror"><div class="shot photo"></div><span class="air">Повтор на «Телик»</span></div>
+              <div class="ph-layer P-home"><div class="tile-h">Телик<small>HDMI 2</small></div><ul><li>HDMI 1</li><li class="on">HDMI 2</li><li>HDMI 3</li></ul></div>
+              <div class="ph-layer P-sleep"><b>21:40</b><span>Вторник, 18 ноября</span></div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -179,17 +181,19 @@
           <p>Язык Телика выбирается отдельно от системы.</p>
           <p class="big grad" aria-hidden="true">Яя Aa</p>
         </article>
+        <article class="glass tile s3 t-pink reveal">
+          <span class="k">AirPods</span>
+          <h3>AirPods на телевизоре.</h3>
+          <p>Одна кнопка на главном экране подключает их. Стерео AAC.</p>
+        </article>
+        <article class="glass tile s3 reveal">
+          <span class="k">Ничего лишнего</span>
+          <h3>Без приставки, сервера и приложения на телефоне.</h3>
+          <p>Без Homebridge, Raspberry Pi и Termux. Телик живёт на телевизоре и запускается сам после включения.</p>
+        </article>
       </div>
     </section>
 
-    <section id="screensaver" class="chapter">
-      <h2 class="reveal">Земля в 4K, пока вы отдыхаете.</h2>
-      <p class="sub reveal">Заставка Телика показывает виды Земли из Apple TV, с часами и погодой в углу.</p>
-      <div class="aerial reveal" role="img" aria-label="Заставка: берег на закате, часы и погода">
-        <span class="badge">4K</span>
-        <div class="over"><b>21:40</b><span><i class="wx cloud"></i> 18° · Переменная облачность</span></div>
-      </div>
-    </section>
 
     <section class="chapter">
       <div class="stats">

@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://telikapp.github.io/sitemap.xml

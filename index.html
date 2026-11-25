@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Telik: control Android TV from iPhone with the built-in Apple TV Remote</title>
-<meta name="description" content="Free open-source Android TV app. Use the iPhone Control Center remote with skip, type with the iPhone keyboard, mirror over AirPlay, add the TV to Apple Home, and get a Home screen with Continue watching, weather and 4K aerial screensavers.">
+<meta name="description" content="Free open-source Android TV app. Use the iPhone Control Center remote with skip, type with the iPhone keyboard, mirror over AirPlay, add the TV to Apple Home, let Claude control the TV, and get a Home screen with Continue watching, weather and 4K aerial screensavers.">
 <link rel="canonical" href="https://telikapp.github.io/">
 <link rel="alternate" hreflang="en" href="https://telikapp.github.io/">
 <link rel="alternate" hreflang="ru" href="https://telikapp.github.io/ru/">
@@ -86,6 +86,7 @@ addEventListener('DOMContentLoaded', () => {
     <nav aria-label="Main">
       <a class="optional" href="#story">How it works</a>
       <a class="optional" href="#home">Home screen</a>
+      <a class="optional" href="#agents">Claude</a>
       <a class="optional" href="#install">Install</a>
       <a href="ru/" hreflang="ru" lang="ru">Русский</a>
       <a href="https://github.com/telikapp/telik">GitHub</a>
@@ -94,9 +95,9 @@ addEventListener('DOMContentLoaded', () => {
 
   <main>
     <div class="hero">
-      <p class="eyebrow"><b>Telik 3.1</b> for Android TV</p>
+      <p class="eyebrow"><b>Telik 3.2</b> for Android TV</p>
       <h1>Android TV. <span class="grad">Now speaks iPhone.</span></h1>
-      <p class="lead">The remote in Control Center. The iPhone keyboard. AirPlay. Apple Home. AirPods. <strong>One free app on the TV, and nothing else.</strong></p>
+      <p class="lead">The remote in Control Center. The iPhone keyboard. AirPlay. Apple Home. AirPods. Claude. <strong>One free app on the TV, and nothing else.</strong></p>
       <div class="cta">
         <a class="button primary" href="https://github.com/telikapp/telik/releases/latest">Download APK</a>
         <a class="button" href="https://github.com/telikapp/telik">Source code</a>
@@ -183,9 +184,41 @@ addEventListener('DOMContentLoaded', () => {
     </section>
 
 
+    <section id="agents" class="chapter">
+      <h2 class="reveal">Ask Claude. The TV does it.</h2>
+      <p class="sub reveal">Telik has an MCP server. Claude Code on your computer, or Claude in the phone app, opens apps, finds a show, pauses it and turns the TV off. The feature is off until you turn it on.</p>
+      <div class="bento">
+        <article class="glass tile s4 t-violet reveal">
+          <span class="k">Claude on the phone</span>
+          <h3>“Pause the movie and turn off the TV.”</h3>
+          <p>Add the TV to claude.ai as a connector once. Then Claude in the phone app controls it, also when you are away from home.</p>
+          <div class="chat" aria-hidden="true">
+            <div class="msg me">Pause the movie and turn off the TV</div>
+            <div class="msg ai"><i>media · pause</i>Paused at 1:26:42.<i>power · off</i>The TV is in standby.</div>
+          </div>
+        </article>
+        <article class="glass tile s2 t-blue reveal">
+          <span class="k">Data, not pictures</span>
+          <h3>It reads the TV like an app.</h3>
+          <p>Screen elements, deep links, what plays now, Continue watching. Telik sends no pictures of your screen.</p>
+        </article>
+        <article class="glass tile s3 t-green reveal">
+          <span class="k">Your OK</span>
+          <h3>Each agent asks the TV first.</h3>
+          <p>Off by default. A new agent shows a code on the TV, and only your OK lets it in.</p>
+          <div class="pin" aria-hidden="true">4827</div>
+        </article>
+        <article class="glass tile s3 t-amber reveal">
+          <span class="k">Your tunnel</span>
+          <h3>From anywhere, through Cloudflare.</h3>
+          <p>Telik runs your Cloudflare Tunnel itself. Scan a QR code on the TV and paste the token on the phone. <a href="https://github.com/telikapp/telik/blob/main/docs/MCP.md">How to connect</a>.</p>
+        </article>
+      </div>
+    </section>
+
     <section class="chapter">
       <div class="stats">
-        <div class="glass stat reveal"><b class="grad">11 MB</b><span>The whole app</span></div>
+        <div class="glass stat reveal"><b class="grad">27 MB</b><span>The whole app, with the tunnel</span></div>
         <div class="glass stat reveal"><b class="grad">0</b><span>Accounts, ads and analytics</span></div>
         <div class="glass stat reveal"><b class="grad">13+</b><span>Android TV version</span></div>
       </div>
@@ -216,6 +249,8 @@ addEventListener('DOMContentLoaded', () => {
             <tr><td>Apple TV+, Netflix over AirPlay</td><td>Not supported. Use their apps on the TV</td></tr>
             <tr><td>The real Siri on the TV</td><td>Not available. The side button starts Android voice search</td></tr>
             <tr><td>Turning the TV on from the iPhone</td><td>Depends on whether the TV keeps its network in standby</td></tr>
+            <tr><td>Control by Claude and other AI agents</td><td>Works over MCP in the local network, and from the Claude app through your Cloudflare tunnel</td></tr>
+            <tr><td>Agents in YouTube and Apple TV</td><td>By links, media controls and keys. These apps give no screen elements</td></tr>
           </tbody>
         </table>
       </div>
@@ -228,6 +263,7 @@ addEventListener('DOMContentLoaded', () => {
         <details class="glass"><summary>Does Netflix or Apple TV+ work over AirPlay?</summary><p>No. Telik does not decrypt protected video. Open those services in their own apps on the TV and control them from the iPhone remote.</p></details>
         <details class="glass"><summary>Do I need root or an extra device?</summary><p>No. The app runs on the TV without root, a server, Homebridge or an iPhone app.</p></details>
         <details class="glass"><summary>Which TVs are supported?</summary><p>Tested on a 32-bit 4K TV with Android 14 and an iPhone on iOS 27. Other Android TV 13+ models should work, and reports are welcome in the issue tracker.</p></details>
+        <details class="glass"><summary>Can Claude control the TV?</summary><p>Yes, from version 3.2. Turn on <em>Control by AI agents</em> in the Telik settings. Claude Code connects in the local network with a token. For Claude on the phone, Telik runs your Cloudflare tunnel, and the TV asks for your OK. See <a href="https://github.com/telikapp/telik/blob/main/docs/MCP.md">the guide</a>.</p></details>
         <details class="glass"><summary>Is it safe?</summary><p>The source is public. Accessibility access lets the app operate the TV, so install only builds you trust. Telik has no analytics and needs no account. See the <a href="privacy.html">privacy policy</a>.</p></details>
       </div>
     </section>
